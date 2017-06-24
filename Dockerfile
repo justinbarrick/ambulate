@@ -1,9 +1,7 @@
-FROM debian:jessie
+FROM abaez/luarocks
 
-WORKDIR /src
-
-RUN apt-get update && apt-get install -y luarocks
 RUN luarocks install luaunit
-
+WORKDIR /src
 ADD . /src
+
 CMD lua test_ambulator.lua -v
