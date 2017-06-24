@@ -1,0 +1,9 @@
+language: erlang
+sudo: false
+env:
+  - LUA=lua5.2
+install:
+  - sudo apt-get install luarocks
+  - luarocks install luaunit
+script:
+  - lua test_ambulator.lua
