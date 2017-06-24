@@ -1,6 +1,6 @@
 .PHONY: build
 build:
-	docker build -t ambulator .
+	docker build -f build/Dockerfile -t ambulator .
 
 .PHONY: test
 test:

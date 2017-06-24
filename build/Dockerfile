@@ -4,4 +4,4 @@ RUN luarocks install luaunit
 WORKDIR /src
 ADD . /src
 
-CMD lua test_ambulator.lua -v
+CMD lua tests/test_ambulator.lua -v

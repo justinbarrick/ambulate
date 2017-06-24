@@ -4,6 +4,6 @@ oppm uninstall ambulator.lua
 rm /usr/bin/ambulator.lua
 rm /usr/bin/install-ambulator
 
-wget https://raw.githubusercontent.com/justinbarrick/ambulator/master/oppm.cfg -o /etc/oppm.cfg
+wget https://raw.githubusercontent.com/justinbarrick/ambulator/master/build/oppm.cfg -o /etc/oppm.cfg
 
 oppm install ambulator.lua
