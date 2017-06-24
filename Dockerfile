@@ -1,4 +1,4 @@
-FROM abaez/luarocks
+FROM abaez/luarocks:lua5.1
 
 RUN luarocks install luaunit
 WORKDIR /src

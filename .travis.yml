@@ -1,9 +1,7 @@
-language: erlang
+language: lua
 sudo: required
 services:
   - docker
-env:
-  - LUA=lua5.2
 install:
   - make build
 script:
