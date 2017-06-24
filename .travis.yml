@@ -1,9 +1,10 @@
 language: erlang
-sudo: false
+sudo: required
+services:
+  - docker
 env:
   - LUA=lua5.2
 install:
-  - sudo apt-get install luarocks
-  - luarocks install luaunit
+  - make build
 script:
-  - lua test_ambulator.lua
+  - make run
