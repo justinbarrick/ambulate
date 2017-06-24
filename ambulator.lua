@@ -100,12 +100,12 @@ function ambulator.move(x, y)
 
         local x_steps = nil
         if current_x > x then
-            x_steps = ambulator.try(left, current_x - x)
+            x_steps = ambulator.try(ambulator.left, current_x - x)
             if x_steps then
                 x_steps = x_steps * -1
             end
         elseif current_x < x then
-            x_steps = ambulator.try(right, x - current_x)
+            x_steps = ambulator.try(ambulator.right, x - current_x)
         end
 
         x_steps = x_steps or 0
