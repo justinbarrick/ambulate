@@ -1,9 +1,22 @@
-local https = require("socket.http")
+require("socket")
+local https = require("ssl.https")
 local ltn12 = require("ltn12")
 
 local _M = {}
 
 function _M.request(url, data, headers)
+    if url:find("^https://raw.github.*build/oppm.cfg$") then
+        local oppm_cfg = io.open("build/oppm.cfg")
+        return function ()
+            local data = oppm_cfg:read("*a")
+            if data ~= "" then
+                return data
+            else
+                return nil
+            end
+        end
+    end
+
     local resp = {}
 
     local method = "GET"
