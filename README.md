@@ -7,7 +7,7 @@ A robot for opencomputers. It just walks around right now.
 To install:
 
 ```
-wget https://raw.githubusercontent.com/justinbarrick/ambulator/master/build/install-ambulator -o /usr/bin/install-ambulator
+wget https://raw.githubusercontent.com/justinbarrick/ambulator/master/build/install-ambulator.lua
 install-ambulator
 ```
 
