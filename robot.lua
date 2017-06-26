@@ -1,4 +1,5 @@
 local math = require("math")
+local sides = require("sides")
 
 local _M = {}
 
@@ -27,6 +28,8 @@ end
 
 function _M.print_board()
     local c_x, c_y = coords_on_board(_M.current_position)
+
+    print("Coordinates: (" .. _M.current_position[1] .. "," .. _M.current_position[2] .. ")", _M.orientation)
 
     for index1, y in pairs(_M.board) do
         local line = ""
@@ -59,23 +62,24 @@ function _M.is_valid_block(coordinates)
     return true
 end
 
-function _M.forward()
+function _M.forward(mock, orientation)
     local new_coordinates = {_M.current_position[1], _M.current_position[2]}
+    local orientation = orientation or _M.orientation
 
-    if _M.orientation == _M.sides.NORTH then
+    if orientation == _M.sides.NORTH then
         new_coordinates[2] = new_coordinates[2] + 1
-    elseif _M.orientation == _M.sides.SOUTH then
+    elseif orientation == _M.sides.SOUTH then
         new_coordinates[2] = new_coordinates[2] - 1
-    elseif _M.orientation == _M.sides.WEST then
+    elseif orientation == _M.sides.WEST then
         new_coordinates[1] = new_coordinates[1] - 1
     else
         new_coordinates[1] = new_coordinates[1] + 1
     end
 
-
     if _M.is_valid_block(new_coordinates) then
-        _M.current_position = new_coordinates
-        _M.print_board()
+        if not mock then
+            _M.current_position = new_coordinates
+        end
         return true
     else
         print("Invalid!")
@@ -94,6 +98,25 @@ end
 function _M.turnAround()
     _M.turnRight()
     _M.turnRight()
+end
+
+function _M.detect(side)
+    local new_orientation = _M.orientation
+
+    if side == sides.left then
+        new_orientation = (new_orientation - 1) % 4
+    elseif side == sides.right then
+        new_orientation = (new_orientation + 1) % 4
+    elseif side == sides.back then
+        new_orientation = (new_orientation + 1) % 4
+        new_orientation = (new_orientation + 1) % 4
+    elseif side == sides.up then
+        return true
+    elseif side == sides.down then
+        return true
+    end
+        
+    return not _M.forward(true, new_orientation)
 end
 
 return _M
