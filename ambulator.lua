@@ -225,8 +225,6 @@ function ambulator.move(x, y)
             y_steps, x_steps = go_x(x, current_x)
         end
 
-        robot.print_board()
-
         current_x = current_x + (x_steps or 0)
         current_y = current_y + (y_steps or 0)
     end
