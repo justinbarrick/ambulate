@@ -14,20 +14,25 @@ _M.current_position = {0,0}
 _M.orientation = _M.sides.NORTH
 
 _M.board = {
-    {0,0,0,0,0},
+    {"waypoint1",0,0,0,0},
     {0,0,1,0,0},
     {0,1,0,0,0},
     {0,0,0,0,0},
     {0,0,0,0,0},
 }
 
-local function coords_on_board(coordinates)
+function _M.reset(x, y, orientation)
+    robot.current_position = {x or 0, y or 0}
+    robot.orientation = orientation or robot.sides.NORTH
+end
+
+function _M.coords_on_board(coordinates)
     local size = math.ceil(#_M.board / 2)
     return coordinates[1] + size, (coordinates[2] * -1) + size
 end
 
 function _M.print_board()
-    local c_x, c_y = coords_on_board(_M.current_position)
+    local c_x, c_y = _M.coords_on_board(_M.current_position)
 
     print("Coordinates: (" .. _M.current_position[1] .. "," .. _M.current_position[2] .. ")", _M.orientation)
 
@@ -45,7 +50,7 @@ function _M.print_board()
 end
 
 function _M.is_valid_block(coordinates)
-    local x, y = coords_on_board(coordinates)
+    local x, y = _M.coords_on_board(coordinates)
 
     if y < 0 or x < 0 then
         return false

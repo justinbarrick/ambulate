@@ -2,11 +2,7 @@ luaunit = require('luaunit')
 robot = require("robot")
 ambulator = require("ambulator")
 sides = require("sides")
-
-local function reset(x, y, orientation)
-    robot.current_position = {x or 0, y or 0}
-    robot.orientation = orientation or robot.sides.NORTH
-end
+reset = robot.reset
 
 function testDetectNorthBlocked()
     reset()
@@ -593,5 +589,26 @@ function testMoveBehind()
     ambulator.move(-7, -7)
     luaunit.assertEquals(robot.current_position, {-7,-7})
 end
+
+function testIsClose()
+    luaunit.assertEquals(ambulator.is_close({1,2}, {1,3}), true)
+    luaunit.assertEquals(ambulator.is_close({2,2}, {1,3}), false)
+end
+
+function testMoveClose()
+    reset()
+
+    robot.board = {
+        {1,0,0,0,0},
+        {0,0,1,0,0},
+        {0,1,0,0,0},
+        {0,0,0,0,0},
+        {0,0,0,0,0},
+    }
+
+    ambulator.move(-2, 2, true)
+    luaunit.assertEquals(ambulator.is_close(robot.current_position, {-2,2}), true)
+end
+
 
 os.exit(luaunit.LuaUnit.run())
