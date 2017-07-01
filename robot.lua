@@ -14,7 +14,7 @@ _M.current_position = {0,0}
 _M.orientation = _M.sides.NORTH
 
 _M.board = {
-    {0,0,0,0,0},
+    {"waypoint1",0,0,0,0},
     {0,0,1,0,0},
     {0,1,0,0,0},
     {0,0,0,0,0},

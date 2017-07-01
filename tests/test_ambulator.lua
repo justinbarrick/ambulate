@@ -590,4 +590,25 @@ function testMoveBehind()
     luaunit.assertEquals(robot.current_position, {-7,-7})
 end
 
+function testIsClose()
+    luaunit.assertEquals(ambulator.is_close({1,2}, {1,3}), true)
+    luaunit.assertEquals(ambulator.is_close({2,2}, {1,3}), false)
+end
+
+function testMoveClose()
+    reset()
+
+    robot.board = {
+        {1,0,0,0,0},
+        {0,0,1,0,0},
+        {0,1,0,0,0},
+        {0,0,0,0,0},
+        {0,0,0,0,0},
+    }
+
+    ambulator.move(-2, 2, true)
+    luaunit.assertEquals(ambulator.is_close(robot.current_position, {-2,2}), true)
+end
+
+
 os.exit(luaunit.LuaUnit.run())

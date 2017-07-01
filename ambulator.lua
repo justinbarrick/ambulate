@@ -1,6 +1,7 @@
 local robot = require("robot")
 local sides = require("sides")
 local math = require("math")
+local navigation = require("component").navigation
 
 local ambulator = {}
 
@@ -184,6 +185,13 @@ function go_x(x, current_x)
     return y_steps, x_steps
 end
 
+function ambulator.is_close(current, dest)
+    local x_distance = ambulator.distance(current[1], dest[1])
+    local y_distance = ambulator.distance(current[2], dest[2])
+
+    return (x_distance == 0 or y_distance == 0) and (x_distance == 1 or y_distance == 1)
+end
+
 function ambulator.use_x_or_y(current_x, current_y, x, y)
     -- Return true if the bot should use the Y axis.
     -- Return false if the bot should use the X axis.
@@ -207,11 +215,15 @@ function ambulator.use_x_or_y(current_x, current_y, x, y)
     return nil
 end
 
-function ambulator.move(x, y)
+function ambulator.move(x, y, close)
     local current_x = 0
     local current_y = 0
 
     while current_x ~= x or current_y ~= y do
+        if close and ambulator.is_close({current_x, current_y}, {x, y}) then
+            return
+        end
+
         local x_steps = nil
         local y_steps = nil
 
@@ -227,16 +239,72 @@ function ambulator.move(x, y)
 
         current_x = current_x + (x_steps or 0)
         current_y = current_y + (y_steps or 0)
+
+        if robot.print_board then
+            robot.print_board()
+        end
+    end
+end
+
+function ambulator.find_waypoints()
+    local waypoints = navigation.findWaypoints(1024)
+
+    for index, waypoint in ipairs(waypoints) do
+        local facing = navigation.getFacing()
+        local x = waypoint.position[1]
+        local y = waypoint.position[3] * -1
+
+        if facing == sides.north then
+            waypoint.position = {x,y}
+        elseif facing == sides.south then
+            waypoint.position = {x*-1,y*-1}
+        elseif facing == sides.east then
+            waypoint.position = {y*-1,x}
+        else
+            waypoint.position = {y,x*-1}
+        end
+    end
+
+    return waypoints
+end
+
+function ambulator.get_waypoint(waypoint_name)
+    for index, waypoint in ipairs(ambulator.find_waypoints()) do
+        if waypoint.label == waypoint_name then
+            return waypoint
+        end
+    end
+end
+
+function ambulator.move_to_waypoint(waypoint_name)
+    local waypoint = ambulator.get_waypoint(waypoint_name)
+    if waypoint then
+        return ambulator.move(waypoint.position[1], waypoint.position[2], true)
     end
 end
 
 local args = {...}
 if args[1] ~= "ambulator" then
-    local x = tonumber(args[1]) or 0
-    local y = tonumber(args[2]) or 0
+    if args[1] == "help" then
+        print("Usage: ambulator [args]")
+        print("  ambulator list     -- list available waypoints")
+        print("  ambulator waypoint -- move to waypoint")
+        print("  ambulator x y      -- move to x and y coordinates")
+        return 1
+    elseif args[1] == "list" then
+        for index, waypoint in ipairs(ambulator.find_waypoints()) do
+            print(waypoint.label, waypoint.position[1], waypoint.position[2])
+        end
+        return
+    elseif tonumber(args[1]) == nil then
+        ambulator.move_to_waypoint(args[1])
+    else
+        local x = tonumber(args[1]) or 0
+        local y = tonumber(args[2]) or 0
 
-    print("moving to (" .. x .. "," .. y .. ")")
-    ambulator.move(x, y)
+        print("moving to (" .. x .. "," .. y .. ")")
+        ambulator.move(x, y)
+    end
 end
 
 return ambulator
