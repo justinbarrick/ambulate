@@ -21,6 +21,7 @@ Place the following in an Electronics Assembler:
 * Disk Drive
 * Hard Disk Drive (Tier 3)
 * EEPROM (Lua BIOS)
+* Navigation Upgrade
 
 Place the OpenOS floppy in the disk drive and turn on your robot.
 
