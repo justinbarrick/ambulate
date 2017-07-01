@@ -1,4 +1,4 @@
-A robot for opencomputers. It just walks around right now.
+A robot for opencomputers. It walks around and navigates to waypoints right now.
 
 ![travis ci](https://travis-ci.org/justinbarrick/ambulator.svg?branch=master)
 
@@ -54,6 +54,18 @@ To run, run `ambulator` with x and y coordinates relative to the robot's locatio
 ```
 ambulator 5 10
 ambulator -5 -3
+```
+
+You can also create a Waypoint block, place it and then list waypoints:
+
+```
+ambulator list
+```
+
+And then navigate to available waypoints:
+
+```
+ambulator waypointname
 ```
 
 # Contributing

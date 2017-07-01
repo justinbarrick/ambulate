@@ -279,13 +279,13 @@ end
 function ambulator.move_to_waypoint(waypoint_name)
     local waypoint = ambulator.get_waypoint(waypoint_name)
     if waypoint then
-        return ambulator.move(waypoint.position[1], waypoint.position[2], true)
+        return ambulator.move(waypoint.position[1], waypoint.position[2])
     end
 end
 
 local args = {...}
 if args[1] ~= "ambulator" then
-    if args[1] == "help" then
+    if args[1] == "help" or #args == 0 then
         print("Usage: ambulator [args]")
         print("  ambulator list     -- list available waypoints")
         print("  ambulator waypoint -- move to waypoint")
@@ -293,7 +293,7 @@ if args[1] ~= "ambulator" then
         return 1
     elseif args[1] == "list" then
         for index, waypoint in ipairs(ambulator.find_waypoints()) do
-            print(waypoint.label, waypoint.position[1], waypoint.position[2])
+            print(waypoint.label .. " (" .. waypoint.position[1] .. "," .. waypoint.position[2] .. ")")
         end
         return
     elseif tonumber(args[1]) == nil then

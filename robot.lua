@@ -60,7 +60,7 @@ function _M.is_valid_block(coordinates)
         return false
     end
 
-    if _M.board[y][x] ~= 0 then
+    if _M.board[y][x] == 1 then
         return false
     end
 
