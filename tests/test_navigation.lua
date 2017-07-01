@@ -195,7 +195,7 @@ function testMoveToWaypoint()
 
     ambulator.move_to_waypoint("waypoint1")
 
-    luaunit.assertEquals(ambulator.is_close(robot.current_position, {-5,4}), true)
+    luaunit.assertEquals(robot.current_position, {-5,4})
 end
 
 function testGetFacingNorth()
