@@ -2,11 +2,7 @@ luaunit = require('luaunit')
 robot = require("robot")
 ambulator = require("ambulator")
 sides = require("sides")
-
-local function reset(x, y, orientation)
-    robot.current_position = {x or 0, y or 0}
-    robot.orientation = orientation or robot.sides.NORTH
-end
+reset = robot.reset
 
 function testDetectNorthBlocked()
     reset()

@@ -4,6 +4,7 @@ build:
 
 .PHONY: test
 test:
+	docker run --rm -v $(shell pwd):/src ambulator lua tests/test_navigation.lua -v
 	docker run --rm -v $(shell pwd):/src ambulator lua build/install-ambulator.lua -v
 	docker run --rm -v $(shell pwd):/src ambulator lua tests/test_ambulator.lua -v
 	docker run --rm -v $(shell pwd):/src ambulator lua tests/test_internet.lua -v
