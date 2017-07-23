@@ -11,6 +11,7 @@ test:
     
 .PHONY: run-tests
 run-tests:
+	$(LUA) tests/test_event.lua -v
 	$(LUA) tests/test_navigation.lua -v
 	$(LUA) build/install-ambulator.lua -v
 	$(LUA) tests/test_ambulator.lua -v
